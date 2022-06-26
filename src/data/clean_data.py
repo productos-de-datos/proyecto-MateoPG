@@ -12,10 +12,33 @@ def clean_data():
 
 
     """
+    import pandas as pd
+    import glob
+
+    path = glob.glob(r'data_lake/raw/*.csv')
+
+    for i, file in enumerate(path):
+        if i == 0:
+            df = pd.read_csv(file, index_col=None, header=0)
+            df_hours = df.iloc[:, :25]
+            df_hours.columns = ['Fecha']+[('0'+str(i))[:2] for i in range(24)]
+            converted_df = df_hours.melt(
+                id_vars='Fecha', var_name='Hora', value_name='Precio')
+            temp_df = converted_df
+        else:
+            df = pd.read_csv(file, index_col=None, header=0)
+            df_hours = df.iloc[:, :25]
+            df_hours.columns = ['Fecha']+[('0'+str(i))[:2] for i in range(24)]
+            converted_df = df_hours.melt(
+                id_vars='Fecha', var_name='Hora', value_name='Precio')
+            temp_df = pd.concat([temp_df, converted_df])
+    temp_df.to_csv('data_lake/cleansed/precios-horarios.csv', index=None)
+
+    return
     raise NotImplementedError("Implementar esta función")
 
 
 if __name__ == "__main__":
     import doctest
-
+    clean_data()
     doctest.testmod()
