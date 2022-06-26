@@ -6,6 +6,8 @@
 # test_02: pytest
 # test_03: doctest
 #
+
+from glob import glob
 import os
 import sys
 
@@ -114,19 +116,22 @@ def test_07():
 
 def test_08():
     """Evalua figura precios diarios"""
-    assert os.path.isfile("data_lake/business/reports/figures/daily_prices.png") is True
+    assert os.path.isfile(
+        "data_lake/business/reports/figures/daily_prices.png") is True
 
 
 def test_09():
     """Evalua figura precios diarios"""
     assert (
-        os.path.isfile("data_lake/business/reports/figures/monthly_prices.png") is True
+        os.path.isfile(
+            "data_lake/business/reports/figures/monthly_prices.png") is True
     )
 
 
 def test_10():
     """Evalua la creación de características para modelos"""
-    assert os.path.isfile("data_lake/business/features/precios_diarios.csv") is True
+    assert os.path.isfile(
+        "data_lake/business/features/precios_diarios.csv") is True
 
 
 def test_11():
@@ -136,7 +141,8 @@ def test_11():
 
 def test_12():
     """Pronosticos"""
-    assert os.path.isfile("data_lake/business/forecasts/precios-diarios.csv") is True
+    assert os.path.isfile(
+        "data_lake/business/forecasts/precios-diarios.csv") is True
 
 
 test = {
