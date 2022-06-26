@@ -1,4 +1,4 @@
-def make_daily_prices_plot():
+def make_monthly_prices_plot():
     """Crea un grafico de lines que representa los precios promedios mensuales.
 
     Usando el archivo data_lake/business/precios-mensuales.csv, crea un grafico de
@@ -21,5 +21,5 @@ def make_daily_prices_plot():
 
 if __name__ == "__main__":
     import doctest
-    make_daily_prices_plot()
+    make_monthly_prices_plot()
     doctest.testmod()
