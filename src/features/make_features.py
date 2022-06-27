@@ -1,3 +1,7 @@
+"""
+This function implements possible features to the model
+"""
+# pylint: disable=import-outside-toplevel
 def make_features():
     """Prepara datos para pronóstico.
 
@@ -16,11 +20,7 @@ def make_features():
 
     shutil.copyfile('data_lake/business/precios-diarios.csv',
                     'data_lake/business/features/precios-diarios.csv')
-
-    return
-
-    raise NotImplementedError("Implementar esta función")
-
+#raise NotImplementedError("Implementar esta función")
 
 if __name__ == "__main__":
     import doctest

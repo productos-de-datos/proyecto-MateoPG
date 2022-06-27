@@ -1,4 +1,8 @@
 
+"""
+Transforms the hourly data into daily data using a daily mean
+"""
+# pylint: disable=import-outside-toplevel
 def compute_daily_prices():
     """Compute los precios promedios diarios.
 
@@ -14,20 +18,15 @@ def compute_daily_prices():
 
     """
     import pandas as pd
-
-    df = pd.read_csv('data_lake/cleansed/precios-horarios.csv',
+    clean_base = pd.read_csv('data_lake/cleansed/precios-horarios.csv',
                      index_col=None, header=0)
-    df['Fecha'] = pd.to_datetime(df['Fecha'], format='%Y-%m-%d')
-    df_ano_mes_agrupada = df.groupby(df['Fecha'])[
+    clean_base['Fecha'] = pd.to_datetime(clean_base['Fecha'], format='%Y-%m-%d')
+    df_ano_mes_agrupada = clean_base.groupby(clean_base['Fecha'])[
         'Precio'].mean().reset_index()
 
     df_ano_mes_agrupada.to_csv(
         'data_lake/business/precios-diarios.csv', index=None)
-
-    return
-    raise NotImplementedError("Implementar esta función")
-
-
+#raise NotImplementedError("Implementar esta función")
 if __name__ == "__main__":
     import doctest
     compute_daily_prices()

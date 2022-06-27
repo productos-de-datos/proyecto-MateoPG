@@ -11,12 +11,16 @@ En luigi llame las funciones que ya creo.
 
 
 """
+# pylint: disable=import-outside-toplevel
+# pylint: disable=unused-variable
 import luigi
 from luigi import Task, LocalTarget
 
 
-class data_ingestion(Task):
-
+class DataIngestion(Task):
+    """
+    Uses the ingest_data function
+    """
     def output(self):
         return LocalTarget('data_lake/landing/result.txt')
 
@@ -26,9 +30,12 @@ class data_ingestion(Task):
             ingest_data()
 
 
-class data_transformation(Task):
+class DataTransformation(Task):
+    """
+    Uses the transform_data function
+    """
     def requires(self):
-        return data_ingestion()
+        return DataIngestion()
 
     def output(self):
         return LocalTarget('data_lake/raw/results2.txt')
@@ -39,9 +46,12 @@ class data_transformation(Task):
             transform_data()
 
 
-class pricing_schedule_table_creation(Task):
+class PricingScheduleTableCreation(Task):
+    """
+    Uses the clean_data function
+    """
     def requires(self):
-        return data_transformation()
+        return DataTransformation()
 
     def output(self):
         return LocalTarget('data_lake/cleansed/result3.txt')
@@ -52,9 +62,12 @@ class pricing_schedule_table_creation(Task):
             clean_data()
 
 
-class mean_daily_prices(Task):
+class MeanDailyPrices(Task):
+    """
+    Uses the compute_daily_prices function
+    """
     def requires(self):
-        return pricing_schedule_table_creation()
+        return PricingScheduleTableCreation()
 
     def output(self):
         return LocalTarget('data_lake/business/result4.txt')
@@ -65,9 +78,12 @@ class mean_daily_prices(Task):
             compute_daily_prices()
 
 
-class mean_monthly_prices(Task):
+class MeanMonthlyPrices(Task):
+    """
+    Uses the compute_monthly_prices function
+    """
     def requires(self):
-        return mean_daily_prices()
+        return MeanDailyPrices()
 
     def output(self):
         return LocalTarget('data_lake/business/result5.txt')
@@ -80,9 +96,8 @@ class mean_monthly_prices(Task):
 
 if __name__ == "__main__":
 
-    luigi.run(['mean_monthly_prices', '--local-scheduler'])
-
-    #raise NotImplementedError("Implementar esta función")
+    luigi.run(['MeanMonthlyPrices', '--local-scheduler'])
+#raise NotImplementedError("Implementar esta función")
 
 if __name__ == "__main__":
     import doctest

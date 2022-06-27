@@ -1,3 +1,7 @@
+"""
+This functions transform the xlsx and xls files to csv files"""
+# pylint: disable=import-outside-toplevel
+# pylint: disable=consider-using-f-string
 def transform_data():
     """Transforme los archivos xls a csv.
 
@@ -8,7 +12,6 @@ def transform_data():
 
     """
     import pandas as pd
-
     for file in range(1995, 2022):
         if file in range(1995, 2000):
             read_file = pd.read_excel(
@@ -31,12 +34,9 @@ def transform_data():
                 'data_lake/landing/{}.xlsx'.format(file), header=0)
             read_file.to_csv(
                 'data_lake/raw/{}.csv'.format(file), index=None)
-    return
-
-    raise NotImplementedError("Implementar esta función")
-
-
+#raise NotImplementedError("Implementar esta función")
 if __name__ == "__main__":
     import doctest
     transform_data()
     doctest.testmod()
+    

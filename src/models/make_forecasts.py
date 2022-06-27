@@ -1,3 +1,8 @@
+"""
+This function does the forecast and save it in csv format
+"""
+# pylint: disable=import-outside-toplevel
+# pylint: disable=consider-using-with
 def make_forecasts():
     """Construya los pronosticos con el modelo entrenado final.
 
@@ -14,30 +19,29 @@ def make_forecasts():
     """
     import pandas as pd
     import pickle
-    from sklearn.linear_model import LinearRegression
-    from sklearn.metrics import mean_squared_error, r2_score
+    from sklearn.metrics import r2_score
 
-    df = pd.read_csv(
+    base = pd.read_csv(
         'data_lake/business/features/precios-diarios.csv', index_col=None, header=0)
+    final_db = base.copy()
 
-    final_db = df.copy()
+    base['Fecha'] = pd.to_datetime(base['Fecha'], format='%Y-%m-%d')
+    base['year'], base['month'], base['day'] = \
+        base['Fecha'].dt.year, base['Fecha'].dt.month, base['Fecha'].dt.day
 
-    df['Fecha'] = pd.to_datetime(df['Fecha'], format='%Y-%m-%d')
-    df['year'], df['month'], df['day'] = df['Fecha'].dt.year, df['Fecha'].dt.month, df['Fecha'].dt.day
-
-    x = df.copy().drop('Fecha', axis=1)
-    y = x.pop('Precio')
+    x_total = base.copy().drop('Fecha', axis=1)
+    y_total = x_total.pop('Precio')
 
     regression = pickle.load(open('src/models/precios-diarios.pkl', 'rb'))
-    prediction = regression.predict(x)
+    prediction = regression.predict(x_total)
+
+    r2_score(y_total,regression.predict(x_total))
 
     final_db['Prediction'] = prediction
 
     final_db.to_csv(
         'data_lake/business/forecasts/precios-diarios.csv', index=None)
-
-    return
-    raise NotImplementedError("Implementar esta función")
+#raise NotImplementedError("Implementar esta función")
 
 
 if __name__ == "__main__":
