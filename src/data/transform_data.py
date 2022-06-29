@@ -35,6 +35,13 @@ def transform_data():
             read_file.to_csv(
                 'data_lake/raw/{}.csv'.format(file), index=None)
 #raise NotImplementedError("Implementar esta función")
+def date_validation():
+    import pandas as pd
+    for file in range(1995, 2022):
+        read_file = pd.read_csv(
+                'data_lake/landing/{}.csv'.format(file))
+        assert ["Fecha"] == read_file.columns.values[0]
+
 if __name__ == "__main__":
     import doctest
     transform_data()
