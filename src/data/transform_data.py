@@ -35,11 +35,14 @@ def transform_data():
             read_file.to_csv(
                 'data_lake/raw/{}.csv'.format(file), index=None)
 #raise NotImplementedError("Implementar esta función")
-def date_validation():
+def test_date_validation():
+    """
+    Testing that the date is in the column that should be
+    """
     import pandas as pd
     for file in range(1995, 2022):
         read_file = pd.read_csv(
-                '../../data_lake/raw/{}.csv'.format(file))
+                'data_lake/raw/{}.csv'.format(file))
         assert ["Fecha"] == [read_file.columns.values[0]]
 
 if __name__ == "__main__":
