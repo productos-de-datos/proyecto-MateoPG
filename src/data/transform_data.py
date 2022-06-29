@@ -1,3 +1,7 @@
+"""
+This functions transform the xlsx and xls files to csv files"""
+# pylint: disable=import-outside-toplevel
+# pylint: disable=consider-using-f-string
 def transform_data():
     """Transforme los archivos xls a csv.
 
@@ -7,10 +11,42 @@ def transform_data():
     H23.
 
     """
-    raise NotImplementedError("Implementar esta función")
-
+    import pandas as pd
+    for file in range(1995, 2022):
+        if file in range(1995, 2000):
+            read_file = pd.read_excel(
+                'data_lake/landing/{}.xlsx'.format(file), header=3)
+            read_file.to_csv(
+                'data_lake/raw/{}.csv'.format(file), index=None)
+        elif file in range(2000, 2018):
+            if file in [2016, 2017]:
+                read_file = pd.read_excel(
+                    'data_lake/landing/{}.xls'.format(file), header=2)
+                read_file.to_csv(
+                    'data_lake/raw/{}.csv'.format(file), index=None)
+            else:
+                read_file = pd.read_excel(
+                    'data_lake/landing/{}.xlsx'.format(file), header=2)
+                read_file.to_csv(
+                    'data_lake/raw/{}.csv'.format(file), index=None)
+        else:
+            read_file = pd.read_excel(
+                'data_lake/landing/{}.xlsx'.format(file), header=0)
+            read_file.to_csv(
+                'data_lake/raw/{}.csv'.format(file), index=None)
+#raise NotImplementedError("Implementar esta función")
+def test_date_validation():
+    """
+    Testing that the date is in the column that should be
+    """
+    import pandas as pd
+    for file in range(1995, 2022):
+        read_file = pd.read_csv(
+                'data_lake/raw/{}.csv'.format(file))
+        assert ["Fecha"] == [read_file.columns.values[0]]
 
 if __name__ == "__main__":
     import doctest
-
+    transform_data()
     doctest.testmod()
+    
