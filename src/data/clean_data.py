@@ -40,6 +40,15 @@ def clean_data():
             temp_base = pd.concat([temp_base, converted_base])
     temp_base.to_csv('data_lake/cleansed/precios-horarios.csv', index=None)
 #raise NotImplementedError("Implementar esta función")
+def test_final_columns():
+    """
+    Testing that the columns are the required ones
+    """
+    import pandas as pd
+    read_file = pd.read_csv(
+                'data_lake/cleansed/precios-horarios.csv')
+    assert ["Fecha","Hora","Precio"] == list(read_file.columns.values)
+
 if __name__ == "__main__":
     import doctest
     clean_data()

@@ -27,6 +27,14 @@ def compute_daily_prices():
     df_ano_mes_agrupada.to_csv(
         'data_lake/business/precios-diarios.csv', index=None)
 #raise NotImplementedError("Implementar esta función")
+def test_save_no_format():
+    """
+    Testing that the date is not in a format when saving a csv
+    """
+    import pandas as pd
+    read_file = pd.read_csv(
+                'data_lake/business/precios-diarios.csv')
+    assert str(read_file['Fecha'].dtypes) == "object"
 if __name__ == "__main__":
     import doctest
     compute_daily_prices()
