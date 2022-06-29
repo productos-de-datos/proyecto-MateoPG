@@ -6,8 +6,11 @@
 # test_02: pytest
 # test_03: doctest
 #
-
-from glob import glob
+"""
+This grader tests all the points
+"""
+# pylint: disable=import-outside-toplevel
+#from glob import glob
 import os
 import sys
 
@@ -135,7 +138,6 @@ def test_10():
     os.system("make make_features")
     assert os.path.isfile(
         "data_lake/business/features/precios-diarios.csv") is True
-
 
 def test_11():
     os.system("make train_daily_model")
