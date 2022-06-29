@@ -140,8 +140,8 @@ def test_10():
         "data_lake/business/features/precios-diarios.csv") is True
 
 def test_11():
-    os.system("make train_daily_model")
     """Modelo creado"""
+    os.system("make train_daily_model")
     assert os.path.isfile("src/models/precios-diarios.pkl") is True
 
 
